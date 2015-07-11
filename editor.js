@@ -69,7 +69,7 @@ function VectorEditor(elem, width, height){
 
 
   if(window.Ext){
-    Ext.get(elem).on("mousedown",function(event){
+    Ext.get(elem).on("mousedown",function(some, event){
       event.preventDefault()
       
       if(event.button == 2){
@@ -82,24 +82,25 @@ function VectorEditor(elem, width, height){
       this.onMouseDown(event.getPageX() - offset()[0], event.getPageY() - offset()[1], event.getTarget())
       return false;
     }, this);
-    Ext.get(elem).on("mousemove",function(event){
+    Ext.get(elem).on("mousemove",function(some, event){
       event.preventDefault()
       this.onMouseMove(event.getPageX()  - offset()[0], event.getPageY()- offset()[1], event.getTarget())
       return false;
     }, this)
-    Ext.get(elem).on("mouseup",function(event){
+    Ext.get(elem).on("mouseup",function(some, event){
       event.preventDefault()
       this.onMouseUp(event.getPageX() - offset()[0], event.getPageY() - offset()[1], event.getTarget())
       return false;
     }, this)
-    Ext.get(elem).on("dblclick",function(event){
+    Ext.get(elem).on("dblclick",function(some, event){
       event.preventDefault()
       this.onDblClick(event.getPageX() - offset()[0], event.getPageY()- offset()[1], event.getTarget())
       return false;
     }, this)
   }else if(window.jQuery){
-    $(elem).mousedown(bind(function(event){
-      event.preventDefault()
+    $(elem).mousedown(bind(function(some, event){
+			       console.log('daaaaaaaaaaaaaaaaaa!', event, elem, arguments)
+			       event.preventDefault()
       
       if(event.button == 2){
         //this.lastmode = this.mode;
@@ -107,33 +108,34 @@ function VectorEditor(elem, width, height){
       }
       this.onMouseDown(event.clientX - offset()[0], event.clientY - offset()[1], event.target)
     }, this));
-    $(elem).mousemove(bind(function(event){
-      event.preventDefault()
+    $(elem).mousemove(bind(function(some, event){
+			       console.log('daaaaaaaaaaaaaaaaaa!', event, elem, arguments)
+			       event.preventDefault()
       this.onMouseMove(event.clientX - offset()[0], event.clientY - offset()[1], event.target)
     }, this));
-    $(elem).mouseup(bind(function(event){
+    $(elem).mouseup(bind(function(some, event){
       event.preventDefault()
       this.onMouseUp(event.clientX - offset()[0], event.clientY - offset()[1], event.target)
     }, this));
-    $(elem).dblclick(bind(function(event){
+    $(elem).dblclick(bind(function(some, event){
       event.preventDefault()
       this.onDblClick(event.clientX - offset()[0], event.clientY - offset()[1], event.target)
     }, this));
     if(mobilesafari){
-    elem.addEventListener("touchstart", bind(function(event){
+    elem.addEventListener("touchstart", bind(function(some, event){
       event.preventDefault()
       this.onMouseDown(event.touches[0].pageX - offset()[0], event.touches[0].pageY - offset()[1], event.target)
     }, this) ,false)
     
-    elem.addEventListener("touchmove", bind(function(event){
+    elem.addEventListener("touchmove", bind(function(some, event){
       event.preventDefault()
       this.onMouseMove(event.touches[0].pageX - offset()[0], event.touches[0].pageY - offset()[1], event.target)
     }, this), false);
-    elem.addEventListener("touchend", bind(function(event){
+    elem.addEventListener("touchend", bind(function(some, event){
       event.preventDefault()
       this.onMouseUp(0, 0, event.target)
     }, this), false);
-    elem.addEventListener("selectstart", function(event){
+    elem.addEventListener("selectstart", function(some, event){
       event.preventDefault()
     return false
     }, false);
@@ -186,6 +188,7 @@ VectorEditor.prototype.returnRotatedPoint = function(x,y,cx,cy,a){
 }
 
 VectorEditor.prototype.fire = function(event){
+
   if(this.listeners[event]){
     for(var i = 0; i < this.listeners[event].length; i++){
       if(this.listeners[event][i].apply(this, arguments)===false){
