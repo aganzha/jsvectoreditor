@@ -3,7 +3,9 @@ function VectorEditor(elem, width, height){
   if (typeof(Raphael) != "function") { //check for the renderer
       return alert("Error! Renderer is Missing!"); //if renderer isn't there, return false;
   }
-  
+  this.width = width
+  this.height = height
+
   this.container = elem
   this.draw = Raphael(elem, width, height);
   
@@ -16,11 +18,11 @@ function VectorEditor(elem, width, height){
   //cant think of any better way to do it
   this.prop = {
     "src": "http://upload.wikimedia.org/wikipedia/commons/a/a5/ComplexSinInATimeAxe.gif",
-    "stroke-width": 1,
-    "stroke": "#000000",
-    "fill": "#ff0000",
+    "stroke-width": 0.5,//1
+    "stroke": "#0067fe",//#000000
+    "fill": "#0067fe",//#ff0000
     "stroke-opacity": 1,
-    "fill-opacity": 1,
+    "fill-opacity": 0.2,
     "text": "Text"
   }
      
@@ -69,7 +71,7 @@ function VectorEditor(elem, width, height){
 
 
   if(window.Ext){
-    Ext.get(elem).on("mousedown",function(some, event){
+    Ext.get(elem).on("mousedown",function(event){
       event.preventDefault()
       
       if(event.button == 2){
@@ -82,24 +84,23 @@ function VectorEditor(elem, width, height){
       this.onMouseDown(event.getPageX() - offset()[0], event.getPageY() - offset()[1], event.getTarget())
       return false;
     }, this);
-    Ext.get(elem).on("mousemove",function(some, event){
+    Ext.get(elem).on("mousemove",function(event){
       event.preventDefault()
       this.onMouseMove(event.getPageX()  - offset()[0], event.getPageY()- offset()[1], event.getTarget())
       return false;
     }, this)
-    Ext.get(elem).on("mouseup",function(some, event){
+    Ext.get(elem).on("mouseup",function(event){
       event.preventDefault()
       this.onMouseUp(event.getPageX() - offset()[0], event.getPageY() - offset()[1], event.getTarget())
       return false;
     }, this)
-    Ext.get(elem).on("dblclick",function(some, event){
+    Ext.get(elem).on("dblclick",function(event){
       event.preventDefault()
       this.onDblClick(event.getPageX() - offset()[0], event.getPageY()- offset()[1], event.getTarget())
       return false;
     }, this)
   }else if(window.jQuery){
-    $(elem).mousedown(bind(function(some, event){
-			       console.log('daaaaaaaaaaaaaaaaaa!', event, elem, arguments)
+    $(elem).mousedown(bind(function(event){
 			       event.preventDefault()
       
       if(event.button == 2){
@@ -108,34 +109,33 @@ function VectorEditor(elem, width, height){
       }
       this.onMouseDown(event.clientX - offset()[0], event.clientY - offset()[1], event.target)
     }, this));
-    $(elem).mousemove(bind(function(some, event){
-			       console.log('daaaaaaaaaaaaaaaaaa!', event, elem, arguments)
+    $(elem).mousemove(bind(function(event){
 			       event.preventDefault()
       this.onMouseMove(event.clientX - offset()[0], event.clientY - offset()[1], event.target)
     }, this));
-    $(elem).mouseup(bind(function(some, event){
+    $(elem).mouseup(bind(function(event){
       event.preventDefault()
       this.onMouseUp(event.clientX - offset()[0], event.clientY - offset()[1], event.target)
     }, this));
-    $(elem).dblclick(bind(function(some, event){
+    $(elem).dblclick(bind(function(event){
       event.preventDefault()
       this.onDblClick(event.clientX - offset()[0], event.clientY - offset()[1], event.target)
     }, this));
     if(mobilesafari){
-    elem.addEventListener("touchstart", bind(function(some, event){
+    elem.addEventListener("touchstart", bind(function(event){
       event.preventDefault()
       this.onMouseDown(event.touches[0].pageX - offset()[0], event.touches[0].pageY - offset()[1], event.target)
     }, this) ,false)
     
-    elem.addEventListener("touchmove", bind(function(some, event){
+    elem.addEventListener("touchmove", bind(function(event){
       event.preventDefault()
       this.onMouseMove(event.touches[0].pageX - offset()[0], event.touches[0].pageY - offset()[1], event.target)
     }, this), false);
-    elem.addEventListener("touchend", bind(function(some, event){
+    elem.addEventListener("touchend", bind(function(event){
       event.preventDefault()
       this.onMouseUp(0, 0, event.target)
     }, this), false);
-    elem.addEventListener("selectstart", function(some, event){
+    elem.addEventListener("selectstart", function(event){
       event.preventDefault()
     return false
     }, false);
@@ -495,7 +495,7 @@ VectorEditor.prototype.onMouseUp = function(x, y, target){
   this.fire("mouseup")
   this.onGrabXY = null;
   if(this.selected[0]){
-    this.applyTransforms(this.selected[0])  
+    this.applyTransforms(this.selected[0])
   }
   
 

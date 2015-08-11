@@ -10,7 +10,7 @@ VectorEditor.prototype.unselect = function(shape){
   }else{
 
     this.fire("unselect", shape);
-    this.array_remove(shape, this.selected);
+      this.array_remove(shape, this.selected);
     for(var i = 0; i < this.trackers.length; i++){
       if(this.trackers[i].shape == shape){
         this.removeTracker(this.trackers[i]);
