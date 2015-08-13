@@ -482,8 +482,10 @@ VectorEditor.prototype.onDblClick = function(x, y, target){
       this.deleteShape(this.selected[0])
     }
     if(this.mode == "polygon"){
-      //this.selected[0].andClose()
-      this.unselect()
+        var poly = this.selected[0];
+        this.unselect()
+        //aganzha
+        this.fire('shapeCompleted', poly,this.mode);
     }
   }
   return false;
@@ -498,7 +500,6 @@ VectorEditor.prototype.onMouseUp = function(x, y, target){
     this.applyTransforms(this.selected[0])
   }
   
-
   
   if(this.mode == "select" || this.mode == "delete"){
     if(this.selectbox){
@@ -533,7 +534,10 @@ VectorEditor.prototype.onMouseUp = function(x, y, target){
     }else{
       this.action = "";
     }
+      //aganzha
+      this.fire('shapeTransformed', this.selected[0],this.mode);
   }else if(this.selected.length == 1){
+      var completed = true, shape=this.selected[0];
     if(this.selected[0].getBBox().height == 0 && this.selected[0].getBBox().width == 0){
       if(this.selected[0].subtype != "polygon"){
         this.deleteShape(this.selected[0])
@@ -556,14 +560,18 @@ VectorEditor.prototype.onMouseUp = function(x, y, target){
       this.selected[0].attr("path", this.selected[0].attrs.path + 'L'+x+' '+y)
       if(!this.selected[0].polypoints) this.selected[0].polypoints = [];
       this.selected[0].polypoints.push([x,y])  
-      
+        completed = false;
     }
+      //aganzha
+      if(completed){
+          this.fire('shapeCompleted', shape,this.mode);
+      }
   }
   if(this.lastmode){
     this.setMode(this.lastmode);
     //this.mode = this.lastmode //not selectmode becasue that unselects
     delete this.lastmode;
-  }
+  }    
   return false;
 }
 

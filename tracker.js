@@ -1,5 +1,5 @@
 VectorEditor.prototype.unselect = function(shape){
-
+    
   if(!shape){
     while(this.selected[0]){
       this.unselect(this.selected[0])
@@ -47,6 +47,7 @@ VectorEditor.prototype.selectToggle = function(shape){
 
 VectorEditor.prototype.select = function(shape){
   if(this.fire("select",shape)===false)return;
+
   this.unselect(false)
   this.selected = [shape]
   this.showTracker(shape)
@@ -122,11 +123,11 @@ VectorEditor.prototype.trackerBox = function(x, y, action){
   var w = 4
   var shape = this.draw.rect(x - w, y - w, 2*w, 2*w).attr({
     "stroke-width": 1,
-    "stroke": "green",
-    "fill": "white"
+    "stroke": "#0099ff",//green
+    "fill": "#0099ff"//white
   //THE FOLLOWING LINES HAVE BEEN COMMENTED DUE TO A HORRIBLE BUG IN RAPHAEL
   }).mouseover(function(){
-    this.attr("fill", "red")
+    this.attr("fill", "#0099ff")//red
     // try{ //easy way out! try catch!
     //   if(this.paper.editor.trackers[0][0].attr("rotation").split(" ")[0] == "0" && this.paper.editor.action != "resize"){ //ugh
     //     this.paper.editor.tooltip("Click and drag to resize shape",
@@ -137,7 +138,7 @@ VectorEditor.prototype.trackerBox = function(x, y, action){
     // }catch(err){}
      
   }).mouseout(function(){
-    this.attr("fill", "white")
+    this.attr("fill", "#0099ff")//white
     if(this.paper && this.paper.editor && this.paper.editor.hideTooltip)
       this.paper.editor.hideTooltip();
     
@@ -170,11 +171,11 @@ VectorEditor.prototype.trackerCircle = function(x, y){
   var w = 5
   var shape = this.draw.ellipse(x, y, w, w).attr({
     "stroke-width": 1,
-    "stroke": "green",
-    "fill": "white"
+    "stroke": "#0099ff",//green
+    "fill": "#0099ff"//white
   //THE FOLLOWING LINES HAVE BEEN COMMENTED DUE TO A HORRIBLE BUG IN RAPHAEL
   }).mouseover(function(){
-    this.attr("fill", "red")
+    this.attr("fill", "#0099ff")//red
     // try{ //easy way out! try catch!
     //   if(this.paper.editor.trackers[0][0].attr("rotation").split(" ")[0] == "0"){ //ewwie!
     //   this.paper.editor.tooltip("Drag to rotate shape or double click to reset.",
@@ -182,7 +183,7 @@ VectorEditor.prototype.trackerCircle = function(x, y){
     //   }
     // }catch(err){}
   }).mouseout(function(){
-    this.attr("fill", "white")
+    this.attr("fill", "#0099ff")//white
     this.paper.editor.hideTooltip()
   }).mousedown(function(){
     this.paper.editor.action = "rotate";

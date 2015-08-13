@@ -79,11 +79,16 @@ VectorEditor.prototype.drawGrid = function(){
 }
 
 VectorEditor.prototype.move = function(shape, dx, dy){
-  if(shape.type == "rect" || shape.type == "image" || shape.type == "ellipse"){
+  if(shape.type == "rect" || shape.type == "image"){
     shape.attr("x", shape.attr("x") + dx)
     shape.attr("y", shape.attr("y") + dy)
   }else if(shape.type == "path"){
     shape.attr('path', Raphael.transformPath(shape.attr('path'), ['t', dx, dy]))
+  }
+  else if ( shape.type == "ellipse"){
+      // aganzha
+      shape.attr("cx", shape.attr("cx") + dx);
+      shape.attr("cy", shape.attr("cy") + dy);
   }
 
   this.renormalizeRotation(shape)
